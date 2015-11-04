@@ -1,7 +1,8 @@
-package com.medicalcms.handlers;
+package com.medicalcms.medics.handlers;
 
 import com.medicalcms.AbstractRequestHandler;
 import com.medicalcms.Answer;
+import com.medicalcms.handlers.EmptyPayload;
 import com.medicalcms.medics.Medic;
 import com.medicalcms.medics.MedicModel;
 import com.medicalcms.medics.MedicSql2oModel;

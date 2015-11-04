@@ -1,10 +1,12 @@
 package com.medicalcms.patients;
 
 import com.medicalcms.anamneses.Anamnese;
+import com.medicalcms.medics.Medic;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
 import java.util.List;
+import java.util.Optional;
 
 public class PatientSql2oModel implements PatientModel {
 
@@ -15,9 +17,9 @@ public class PatientSql2oModel implements PatientModel {
     }
 
     @Override
-    public int create(String name, int age, String email, String city, String gender) {
+    public Long create(String name, int age, String email, String city, String gender) {
         try (Connection conn = sql2o.beginTransaction()) {
-            int patientId = (int) conn.createQuery("INSERT INTO patients(name, age, email, city, gender) VALUES (:name, :age, :email, :city, :gender)")
+            Long patientId = (Long) conn.createQuery("INSERT INTO patients(name, age, email, city, gender) VALUES (:name, :age, :email, :city, :gender)")
                     .addParameter("name", name)
                     .addParameter("age", age)
                     .addParameter("email", email)
@@ -40,12 +42,18 @@ public class PatientSql2oModel implements PatientModel {
     }
 
     @Override
-    public Patient get(int patientId) {
+    public Optional<Patient> get(int patientId) {
         try (Connection conn = sql2o.open()) {
-            Patient patient = conn.createQuery("SELECT * FROM patients WHERE id=:patientId")
+            List<Patient> patients = conn.createQuery("SELECT * FROM patients WHERE id=:patientId")
                     .addParameter("patientId", patientId)
-                    .executeAndFetchFirst(Patient.class);
-            return patient;
+                    .executeAndFetch(Patient.class);
+            if (patients.size() == 0) {
+                return Optional.empty();
+            } else if (patients.size() == 1) {
+                return Optional.of(patients.get(0));
+            } else {
+                throw new RuntimeException();
+            }
         }
     }
 

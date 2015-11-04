@@ -1,15 +1,16 @@
-package com.medicalcms.medics;
+package com.medicalcms.medics.handlers;
 
 import com.medicalcms.AbstractRequestHandler;
 import com.medicalcms.Answer;
+import com.medicalcms.medics.MedicModel;
 
 import java.util.Map;
 
 public class CreateMedicHandler extends AbstractRequestHandler<CreateMedicPayload> {
 
-    private MedicSql2oModel model;
+    private MedicModel model;
 
-    public CreateMedicHandler(MedicSql2oModel model) {
+    public CreateMedicHandler(MedicModel model) {
         super(CreateMedicPayload.class);
         this.model = model;
     }

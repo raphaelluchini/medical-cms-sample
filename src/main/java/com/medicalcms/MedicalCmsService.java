@@ -2,12 +2,17 @@ package com.medicalcms;
 
 import com.beust.jcommander.JCommander;
 import com.medicalcms.anamneses.AnamneseSql2oModel;
-import com.medicalcms.handlers.GetSingleMedicHandler;
+import com.medicalcms.medics.handlers.GetSingleMedicHandler;
 import com.medicalcms.medics.*;
 
 
+import com.medicalcms.medics.handlers.CreateMedicHandler;
+import com.medicalcms.medics.handlers.DeleteMedicHandler;
+import com.medicalcms.medics.handlers.EditMedicHandler;
+import com.medicalcms.medics.handlers.IndexMedicsHandler;
 import com.medicalcms.patients.PatientSql2oModel;
 
+import com.medicalcms.patients.handlers.*;
 import org.sql2o.Sql2o;
 import spark.Request;
 import spark.Response;
@@ -51,6 +56,12 @@ public class MedicalCmsService
         post("/medics", new CreateMedicHandler(medicSql2oModel));
         put("/medics/:id", new EditMedicHandler(medicSql2oModel));
         delete("/medics/:id", new DeleteMedicHandler(medicSql2oModel));
+
+        get("/patients/:id", new GetSinglePatientHandler(patientSql2oModel));
+        get("/patients", new IndexPatientsHandler(patientSql2oModel));
+        post("/patients", new CreatePatientHandler(patientSql2oModel));
+        put("/patients/:id", new EditPatientHandler(patientSql2oModel));
+        delete("/patients/:id", new DeletePatientHandler(patientSql2oModel));
 
         get("/alive", new Route() {
             @Override

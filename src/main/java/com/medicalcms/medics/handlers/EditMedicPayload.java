@@ -1,14 +1,15 @@
-package com.medicalcms.medics;
+package com.medicalcms.medics.handlers;
 
 import com.medicalcms.Validable;
 import lombok.Data;
 
+
 @Data
-class CreateMedicPayload implements Validable {
+class EditMedicPayload implements Validable {
     private String name;
 
     public boolean isValid() {
-        return name != null;
+        return true;
     }
 
     public String getName() {

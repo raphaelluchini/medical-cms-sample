@@ -1,17 +1,18 @@
-package com.medicalcms.medics;
+package com.medicalcms.medics.handlers;
 
 import com.medicalcms.AbstractRequestHandler;
 import com.medicalcms.Answer;
+import com.medicalcms.medics.Medic;
+import com.medicalcms.medics.MedicModel;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 public class EditMedicHandler extends AbstractRequestHandler<EditMedicPayload> {
 
-    private MedicSql2oModel model;
+    private MedicModel model;
 
-    public EditMedicHandler(MedicSql2oModel model) {
+    public EditMedicHandler(MedicModel model) {
         super(EditMedicPayload.class);
         this.model = model;
     }

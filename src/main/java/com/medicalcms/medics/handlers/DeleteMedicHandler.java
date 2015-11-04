@@ -1,17 +1,19 @@
-package com.medicalcms.medics;
+package com.medicalcms.medics.handlers;
 
 import com.medicalcms.AbstractRequestHandler;
 import com.medicalcms.Answer;
 import com.medicalcms.handlers.EmptyPayload;
+import com.medicalcms.medics.Medic;
+import com.medicalcms.medics.MedicModel;
 
 import java.util.Map;
 import java.util.Optional;
 
 public class DeleteMedicHandler extends AbstractRequestHandler<EmptyPayload> {
 
-    private MedicSql2oModel model;
+    private MedicModel model;
 
-    public DeleteMedicHandler(MedicSql2oModel model) {
+    public DeleteMedicHandler(MedicModel model) {
         super(EmptyPayload.class);
         this.model = model;
     }

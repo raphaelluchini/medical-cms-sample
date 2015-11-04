@@ -1,19 +1,19 @@
-package com.medicalcms.medics;
+package com.medicalcms.patients.handlers;
 
 import com.medicalcms.AbstractRequestHandler;
 import com.medicalcms.Answer;
 import com.medicalcms.handlers.EmptyPayload;
-import com.medicalcms.medics.MedicModel;
-import com.medicalcms.medics.MedicSql2oModel;
+import com.medicalcms.patients.PatientModel;
 
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static j2html.TagCreator.*;
 
-public class IndexMedicsHandler extends AbstractRequestHandler<EmptyPayload> {
-    public MedicModel model;
-    public IndexMedicsHandler(MedicSql2oModel model) {
+public class IndexPatientsHandler extends AbstractRequestHandler<EmptyPayload> {
+    public PatientModel model;
+
+    public IndexPatientsHandler(PatientModel model) {
         super(EmptyPayload.class);
         this.model = model;
     }
@@ -22,7 +22,7 @@ public class IndexMedicsHandler extends AbstractRequestHandler<EmptyPayload> {
     protected Answer processImpl(EmptyPayload value, Map urlParams, boolean shouldReturnHtml) {
         if (shouldReturnHtml) {
             String html = body().with(
-                    h1("Medics:"),
+                    h1("Patients:"),
                     div().with(
                             model.getAll().stream().map((p) ->
                                     div().with(
