@@ -1,15 +1,18 @@
-package com.medicalcms;
+package com.medicalcms.requestsHandlers;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.medicalcms.handlers.EmptyPayload;
+import com.medicalcms.Answer;
+import com.medicalcms.RequestHandler;
+import com.medicalcms.Validable;
+import com.medicalcms.EmptyPayload;
+import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import spark.template.handlebars.HandlebarsTemplateEngine;
 
-import javax.servlet.MultipartConfigElement;
-import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Map;
@@ -27,6 +30,10 @@ public abstract class AbstractRequestHandler<V extends Validable> implements Req
     private static boolean shouldReturnHtml(Request request) {
         String accept = request.headers("Accept");
         return accept != null && accept.contains("text/html");
+    }
+
+    public static String toHandlebars(ModelAndView modelAndView){
+        return new HandlebarsTemplateEngine().render(modelAndView);
     }
 
     public static String dataToJson(Object data) {

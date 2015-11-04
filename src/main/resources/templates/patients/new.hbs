@@ -1,0 +1,20 @@
+{{> header.hbs}}
+    <h1>Criar Paciente</h1>
+<div class="col-md-4">
+    <form method="POST" action="/patients">
+        <div class="form-group">
+            <label for="name">Nome:</label>
+            <input type="text" id="name" name="name" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="name">Email:</label>
+            <input type="email" id="email" name="email" class="form-control">
+        </div>
+
+        <div class="btn-group">
+            <input type="submit" class="btn btn-default" value="Enviar">
+            <a class="btn btn-warning" href="/patients">Voltar</a>
+        </div>
+    </form>
+</div>
+{{> footer.hbs}}

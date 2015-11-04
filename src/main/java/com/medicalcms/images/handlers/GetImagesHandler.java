@@ -1,8 +1,8 @@
 package com.medicalcms.images.handlers;
 
-import com.medicalcms.AbstractRequestHandler;
+import com.medicalcms.requestsHandlers.AbstractRequestHandler;
 import com.medicalcms.Answer;
-import com.medicalcms.handlers.EmptyPayload;
+import com.medicalcms.EmptyPayload;
 import com.medicalcms.images.ImageModel;
 
 import java.util.Map;

@@ -1,6 +1,6 @@
 package com.medicalcms.anamneses.handlers;
 
-import com.medicalcms.AbstractRequestHandler;
+import com.medicalcms.requestsHandlers.AbstractRequestHandler;
 import com.medicalcms.Answer;
 import com.medicalcms.anamneses.AnamneseModel;
 

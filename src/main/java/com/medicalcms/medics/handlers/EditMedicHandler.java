@@ -1,6 +1,6 @@
 package com.medicalcms.medics.handlers;
 
-import com.medicalcms.AbstractRequestHandler;
+import com.medicalcms.requestsHandlers.AbstractRequestHandler;
 import com.medicalcms.Answer;
 import com.medicalcms.medics.Medic;
 import com.medicalcms.medics.MedicModel;

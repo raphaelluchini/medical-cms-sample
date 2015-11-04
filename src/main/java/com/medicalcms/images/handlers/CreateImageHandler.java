@@ -1,7 +1,7 @@
 package com.medicalcms.images.handlers;
 
 import com.medicalcms.Answer;
-import com.medicalcms.MultipartRequestHandler;
+import com.medicalcms.requestsHandlers.MultipartRequestHandler;
 import com.medicalcms.images.ImageModel;
 
 import java.util.Map;

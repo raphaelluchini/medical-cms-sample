@@ -1,4 +1,4 @@
-package com.medicalcms.handlers;
+package com.medicalcms;
 
 
 import com.medicalcms.Validable;

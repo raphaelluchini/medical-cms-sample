@@ -1,10 +1,10 @@
 package com.medicalcms.anamneses.handlers;
 
-import com.medicalcms.AbstractRequestHandler;
+import com.medicalcms.requestsHandlers.AbstractRequestHandler;
 import com.medicalcms.Answer;
 import com.medicalcms.anamneses.Anamnese;
 import com.medicalcms.anamneses.AnamneseModel;
-import com.medicalcms.handlers.EmptyPayload;
+import com.medicalcms.EmptyPayload;
 
 import java.util.Map;
 import java.util.Optional;

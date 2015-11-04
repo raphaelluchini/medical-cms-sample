@@ -1,16 +1,16 @@
 package com.medicalcms.medics.handlers;
 
-import com.medicalcms.AbstractRequestHandler;
+import com.medicalcms.requestsHandlers.AbstractRequestHandler;
 import com.medicalcms.Answer;
-import com.medicalcms.handlers.EmptyPayload;
+import com.medicalcms.EmptyPayload;
 import com.medicalcms.medics.Medic;
 import com.medicalcms.medics.MedicModel;
 import com.medicalcms.medics.MedicSql2oModel;
+import spark.ModelAndView;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
-import static j2html.TagCreator.*;
 
 
 public class GetSingleMedicHandler extends AbstractRequestHandler<EmptyPayload> {
@@ -42,10 +42,9 @@ public class GetSingleMedicHandler extends AbstractRequestHandler<EmptyPayload> 
         }
 
         if (shouldReturnHtml) {
-            String html = body().with(
-                    h1("Medics:"),
-                    div().with(h2(medic.get().getName()))
-            ).render();
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("data", medic.get());
+            String html = toHandlebars(new ModelAndView(map, "medics/edit.hbs"));
             return Answer.ok(html);
         } else {
             String json = dataToJson(medic.get());

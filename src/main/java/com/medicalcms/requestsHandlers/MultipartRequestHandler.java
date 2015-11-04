@@ -1,9 +1,12 @@
-package com.medicalcms;
+package com.medicalcms.requestsHandlers;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.medicalcms.handlers.EmptyPayload;
+import com.medicalcms.Answer;
+import com.medicalcms.RequestHandler;
+import com.medicalcms.Validable;
+import com.medicalcms.EmptyPayload;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -16,8 +19,6 @@ import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 

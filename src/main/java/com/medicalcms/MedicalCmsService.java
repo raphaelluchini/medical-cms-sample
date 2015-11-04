@@ -28,10 +28,7 @@ import spark.Route;
 
 import java.util.logging.Logger;
 
-import static spark.Spark.get;
-import static spark.Spark.post;
-import static spark.Spark.put;
-import static spark.Spark.delete;
+import static spark.Spark.*;
 
 public class MedicalCmsService
 {
@@ -52,6 +49,8 @@ public class MedicalCmsService
         Sql2o sql2o = new Sql2o("jdbc:mysql://" + options.dbHost + ":" + options.dbPort + "/" + options.database,
                 options.dbUsername, options.dbPassword
         );
+
+        staticFileLocation("/public");
 
         AnamneseSql2oModel anamneseSql2oModel = new AnamneseSql2oModel(sql2o);
         MedicSql2oModel medicSql2oModel = new MedicSql2oModel(sql2o);
