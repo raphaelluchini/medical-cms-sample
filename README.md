@@ -4,7 +4,7 @@ Medical CMS sample using Java
 ##Getting Started OSX/Linux:
 ```
 git clone https://github.com/raphaelluchini/medical-cms-sample.git
-cd NotaFiscalJavaSample
+cd medical-cms-sample
 mvn compile && mvn exec:java
 ```
 ##Using IDEs:
