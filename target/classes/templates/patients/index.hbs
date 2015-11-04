@@ -1,7 +1,7 @@
 {{> header.hbs}}
-    <h1>Clientes</h1>
+    <h1>Pacientes</h1>
     <div class="btn-group">
-        <a class="btn btn-primary" href="/customers/new">Criar um novo Cliente</a>
+        <a class="btn btn-primary" href="/patients/new">Criar um novo Paciente</a>
         <a class="btn btn-warning" href="/">Voltar</a>
     </div>
     <br>
@@ -16,14 +16,10 @@
         {{#each data}}
         <tr>
             <td>{{id}}</td>
-            <td><a href="/customers/{{id}}">{{name}}</a></td>
+            <td><a href="/patients/{{id}}">{{name}}</a></td>
             <td>{{email}}</td>
-            <td><a class="btn btn-danger btn-sm" href="/customers/{{id}}/delete"><i class="glyphicon glyphicon-trash"></i></a></td>
+            <td><a class="btn btn-danger btn-sm" href="/patients/{{id}}/delete"><i class="glyphicon glyphicon-trash"></i></a></td>
         </tr>
         {{/each}}
     </table>
-
-    {{#if delete}}
-        <div class="success">Cliente deletado com sucesso</div>
-    {{/if}}
 {{> footer.hbs}}

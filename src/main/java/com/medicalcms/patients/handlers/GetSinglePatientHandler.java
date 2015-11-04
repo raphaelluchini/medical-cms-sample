@@ -5,7 +5,9 @@ import com.medicalcms.Answer;
 import com.medicalcms.EmptyPayload;
 import com.medicalcms.patients.Patient;
 import com.medicalcms.patients.PatientModel;
+import spark.ModelAndView;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -41,10 +43,9 @@ public class GetSinglePatientHandler extends AbstractRequestHandler<EmptyPayload
         }
 
         if (shouldReturnHtml) {
-            String html = body().with(
-                    h1("Patients"),
-                    div().with(h2(patient.get().getName()))
-            ).render();
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("data", patient.get());
+            String html = toHandlebars(new ModelAndView(map, "patients/edit.hbs"));
             return Answer.ok(html);
         } else {
             String json = dataToJson(patient.get());

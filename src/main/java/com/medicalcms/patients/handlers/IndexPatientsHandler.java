@@ -4,7 +4,9 @@ import com.medicalcms.requestsHandlers.AbstractRequestHandler;
 import com.medicalcms.Answer;
 import com.medicalcms.EmptyPayload;
 import com.medicalcms.patients.PatientModel;
+import spark.ModelAndView;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -21,15 +23,9 @@ public class IndexPatientsHandler extends AbstractRequestHandler<EmptyPayload> {
     @Override
     protected Answer processImpl(EmptyPayload value, Map urlParams, boolean shouldReturnHtml) {
         if (shouldReturnHtml) {
-            String html = body().with(
-                    h1("Patients:"),
-                    div().with(
-                            model.getAll().stream().map((p) ->
-                                    div().with(
-                                            h2(p.getName())
-                                            ))
-                                    .collect(Collectors.toList()))
-            ).render();
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("data", model.getAll());
+            String html = toHandlebars(new ModelAndView(map, "patients/index.hbs"));
             return Answer.ok(html);
         } else {
             String json = dataToJson(model.getAll());

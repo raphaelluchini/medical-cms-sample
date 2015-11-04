@@ -22,9 +22,8 @@ import com.medicalcms.patients.PatientSql2oModel;
 
 import com.medicalcms.patients.handlers.*;
 import org.sql2o.Sql2o;
-import spark.Request;
-import spark.Response;
-import spark.Route;
+import spark.ModelAndView;
+import spark.template.handlebars.HandlebarsTemplateEngine;
 
 import java.util.logging.Logger;
 
@@ -78,11 +77,6 @@ public class MedicalCmsService
         post("/images", new CreateImageHandler(imageSql2oModel));
         delete("/images/:id", new DeleteImageHandler(imageSql2oModel));
 
-        get("/alive", new Route() {
-            @Override
-            public Object handle(Request request, Response response) throws Exception {
-                return "ok";
-            }
-        });
+        get("/", (req, res) -> new ModelAndView(null, "index.hbs"), new HandlebarsTemplateEngine());
     }
 }

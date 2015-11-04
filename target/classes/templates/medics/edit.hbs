@@ -1,7 +1,7 @@
 {{> header.hbs}}
 <h1>Editar Médico</h1>
 <div class="col-md-4">
-    <form method="POST" action="/customers/{{data.id}}/edit">
+    <form method="POST" action="/medics/{{data.id}}/edit">
         <div class="form-group">
             <label for="name">Nome:</label>
             <input type="text" id="name" name="name" value="{{data.name}}" class="form-control">
@@ -15,7 +15,4 @@
         </div>
     </form>
 </div>
-{{#if fs}}
-    <div class="success">Produto editado com sucesso</div>
-{{/if}}
 {{> footer.hbs}}
