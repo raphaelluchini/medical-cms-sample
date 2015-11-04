@@ -2,6 +2,10 @@ package com.medicalcms;
 
 import com.beust.jcommander.JCommander;
 import com.medicalcms.anamneses.AnamneseSql2oModel;
+import com.medicalcms.anamneses.handlers.CreateAnamneseHandler;
+import com.medicalcms.anamneses.handlers.DeleteAnamneseHandler;
+import com.medicalcms.anamneses.handlers.EditAnamneseHandler;
+import com.medicalcms.anamneses.handlers.GetSingleAnamneseHandler;
 import com.medicalcms.medics.handlers.GetSingleMedicHandler;
 import com.medicalcms.medics.*;
 
@@ -62,6 +66,11 @@ public class MedicalCmsService
         post("/patients", new CreatePatientHandler(patientSql2oModel));
         put("/patients/:id", new EditPatientHandler(patientSql2oModel));
         delete("/patients/:id", new DeletePatientHandler(patientSql2oModel));
+
+        get("/anamneses/:id", new GetSingleAnamneseHandler(anamneseSql2oModel));
+        post("/anamneses", new CreateAnamneseHandler(anamneseSql2oModel));
+        put("/anamneses/:id", new EditAnamneseHandler(anamneseSql2oModel, medicSql2oModel, patientSql2oModel));
+        delete("/anamneses/:id", new DeleteAnamneseHandler(anamneseSql2oModel));
 
         get("/alive", new Route() {
             @Override

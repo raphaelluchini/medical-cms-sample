@@ -7,6 +7,7 @@ import org.sql2o.Sql2o;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public class AnamneseSql2oModel implements AnamneseModel {
 
@@ -17,9 +18,9 @@ public class AnamneseSql2oModel implements AnamneseModel {
     }
 
     @Override
-    public int create(String drugs, String orders, Date date, int medicId, int patientId) {
+    public Long create(String drugs, String orders, Date date, int medicId, int patientId) {
         try (Connection conn = sql2o.beginTransaction()) {
-            int anamneseId = (int) conn.createQuery("INSERT INTO anamneses(drugs,orders,date,medic_id,patient_id) VALUES (:drugs,:orders,:date,:medicId,:patientId)")
+            Long anamneseId = (Long) conn.createQuery("INSERT INTO anamneses(drugs,orders,date,medic_id,patient_id) VALUES (:drugs,:orders,:date,:medicId,:patientId)")
                     .addParameter("drugs", drugs)
                     .addParameter("orders", orders)
                     .addParameter("date", date)
@@ -42,12 +43,18 @@ public class AnamneseSql2oModel implements AnamneseModel {
     }
 
     @Override
-    public Anamnese get(int anamneseId) {
+    public Optional<Anamnese> get(int anamneseId) {
         try (Connection conn = sql2o.open()) {
-            Anamnese anamnese = conn.createQuery("SELECT * FROM anamneses WHERE id=:")
+            List<Anamnese>  anamnese = conn.createQuery("SELECT * FROM anamneses WHERE id=:anamneseId")
                     .addParameter("anamneseId", anamneseId)
-                    .executeAndFetchFirst(Anamnese.class);
-            return anamnese;
+                    .executeAndFetch(Anamnese.class);
+            if (anamnese.size() == 0) {
+                return Optional.empty();
+            } else if (anamnese.size() == 1) {
+                return Optional.of(anamnese.get(0));
+            } else {
+                throw new RuntimeException();
+            }
         }
     }
 
