@@ -6,7 +6,7 @@ import lombok.Data;
 public class Image {
     int id;
     String src;
-    int patient_id;
+    int anamnese_id;
 
     public int getId() {
         return id;
@@ -24,11 +24,11 @@ public class Image {
         this.src = src;
     }
 
-    public int getPatient_id() {
-        return patient_id;
+    public int getAnamnese_id() {
+        return anamnese_id;
     }
 
-    public void setPatient_id(int patient_id) {
-        this.patient_id = patient_id;
+    public void setAnamnese_id(int anamnese_id) {
+        this.anamnese_id = anamnese_id;
     }
 }
