@@ -6,6 +6,10 @@ import com.medicalcms.anamneses.handlers.CreateAnamneseHandler;
 import com.medicalcms.anamneses.handlers.DeleteAnamneseHandler;
 import com.medicalcms.anamneses.handlers.EditAnamneseHandler;
 import com.medicalcms.anamneses.handlers.GetSingleAnamneseHandler;
+import com.medicalcms.images.ImageSql2OModel;
+import com.medicalcms.images.handlers.CreateImageHandler;
+import com.medicalcms.images.handlers.DeleteImageHandler;
+import com.medicalcms.images.handlers.GetImagesHandler;
 import com.medicalcms.medics.handlers.GetSingleMedicHandler;
 import com.medicalcms.medics.*;
 
@@ -28,7 +32,6 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.put;
 import static spark.Spark.delete;
-import static spark.SparkBase.port;
 
 public class MedicalCmsService
 {
@@ -45,7 +48,6 @@ public class MedicalCmsService
         logger.finest("Options.dbUsername = " + options.dbUsername);
         logger.finest("Options.dbPort = " + options.dbPort);
 
-        port(options.servicePort);
 
         Sql2o sql2o = new Sql2o("jdbc:mysql://" + options.dbHost + ":" + options.dbPort + "/" + options.database,
                 options.dbUsername, options.dbPassword
@@ -54,6 +56,7 @@ public class MedicalCmsService
         AnamneseSql2oModel anamneseSql2oModel = new AnamneseSql2oModel(sql2o);
         MedicSql2oModel medicSql2oModel = new MedicSql2oModel(sql2o);
         PatientSql2oModel patientSql2oModel = new PatientSql2oModel(sql2o);
+        ImageSql2OModel imageSql2oModel = new ImageSql2OModel(sql2o);
 
         get("/medics/:id", new GetSingleMedicHandler(medicSql2oModel));
         get("/medics", new IndexMedicsHandler(medicSql2oModel));
@@ -71,6 +74,10 @@ public class MedicalCmsService
         post("/anamneses", new CreateAnamneseHandler(anamneseSql2oModel));
         put("/anamneses/:id", new EditAnamneseHandler(anamneseSql2oModel, medicSql2oModel, patientSql2oModel));
         delete("/anamneses/:id", new DeleteAnamneseHandler(anamneseSql2oModel));
+
+        get("/images", new GetImagesHandler(imageSql2oModel));
+        post("/images", new CreateImageHandler(imageSql2oModel));
+        delete("/images/:id", new DeleteImageHandler(imageSql2oModel));
 
         get("/alive", new Route() {
             @Override

@@ -11,22 +11,29 @@ import spark.Route;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.Part;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractRequestHandler<V extends Validable> implements RequestHandler<V>, Route {
+public abstract class MultipartRequestHandler<V extends Validable> implements RequestHandler<V>, Route {
 
     private Class<V> valueClass;
 
     private static final int HTTP_BAD_REQUEST = 400;
 
-    public AbstractRequestHandler(Class<V> valueClass){
+    public MultipartRequestHandler(Class<V> valueClass){
         this.valueClass = valueClass;
     }
 
     private static boolean shouldReturnHtml(Request request) {
         String accept = request.headers("Accept");
-        return accept != null && accept.contains("text/html");
+        return accept != null;
     }
 
     public static String dataToJson(Object data) {
@@ -54,21 +61,32 @@ public abstract class AbstractRequestHandler<V extends Validable> implements Req
     @Override
     public Object handle(Request request, Response response) throws Exception {
         try {
+            String location = "/tmp";
             ObjectMapper objectMapper = new ObjectMapper();
             V value = null;
             if (valueClass != EmptyPayload.class) {
-                value = objectMapper.readValue(request.body(), valueClass);
+                MultipartConfigElement multipartConfigElement = new MultipartConfigElement(location);
+                request.raw().setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement);
+                Part file = request.raw().getPart("file"); //file is name of the upload form
+                String num = Integer.toString((int) Math.round(Math.random() * 10000));
+                Path out = Paths.get(location + "/" + num + "-" + file.getSubmittedFileName());
+                try (final InputStream in = file.getInputStream()) {
+                    Files.copy(in,out);
+                    file.delete();
+                }
+                Map <String, String[]> map = request.raw().getParameterMap();
+                Map <String, String> hm = new HashMap<String, String>();
+
+                for(Map.Entry<String, String[]> item : map.entrySet()){
+                    hm.put(item.getKey(), item.getValue()[0]);
+                }
+                hm.put("src", out.toString());
+                value = objectMapper.readValue(dataToJson(hm), valueClass);
             }
             Map<String, String> urlParams = request.params();
-            Answer answer = process(value, urlParams, shouldReturnHtml(request));
+            Answer answer = process(value, urlParams, false);
             response.status(answer.getCode());
-            if (shouldReturnHtml(request)) {
-                response.type("text/html");
-            } else {
-                response.type("application/json");
-            }
-            response.body(answer.getBody());
-            return answer.getBody();
+            return "";
         } catch (JsonMappingException e) {
             response.status(400);
             response.body(e.getMessage());
