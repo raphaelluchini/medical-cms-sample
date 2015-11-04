@@ -7,6 +7,7 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MedicSql2oModel implements MedicModel {
 
@@ -17,13 +18,12 @@ public class MedicSql2oModel implements MedicModel {
     }
 
     @Override
-    public int create(String name) {
-        try (Connection conn = sql2o.beginTransaction()) {
-            int patientId = (int) conn.createQuery("INSERT INTO medics(name) VALUES (:name)")
+    public Long create(String name) {
+        try (Connection conn =  sql2o.open()) {
+            Long patientId = (Long) conn.createQuery("INSERT INTO medics(name) VALUES (:name)")
                     .addParameter("name", name)
                     .executeUpdate()
                     .getKey();
-            conn.commit();
             return patientId;
         }
     }
@@ -38,12 +38,18 @@ public class MedicSql2oModel implements MedicModel {
     }
 
     @Override
-    public Medic get(int medicId) {
+    public Optional<Medic> get(int medicId) {
         try (Connection conn = sql2o.open()) {
-            Medic medic = conn.createQuery("SELECT * FROM medics WHERE id=:medicId")
+            List<Medic> medics = conn.createQuery("SELECT * FROM medics WHERE id=:medicId")
                     .addParameter("medicId", medicId)
-                    .executeAndFetchFirst(Medic.class);
-            return medic;
+                    .executeAndFetch(Medic.class);
+            if (medics.size() == 0) {
+                return Optional.empty();
+            } else if (medics.size() == 1) {
+                return Optional.of(medics.get(0));
+            } else {
+                throw new RuntimeException();
+            }
         }
     }
 

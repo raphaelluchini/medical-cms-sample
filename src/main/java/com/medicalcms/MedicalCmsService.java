@@ -3,20 +3,16 @@ package com.medicalcms;
 import com.beust.jcommander.JCommander;
 import com.medicalcms.anamneses.AnamneseSql2oModel;
 import com.medicalcms.handlers.GetSingleMedicHandler;
-import com.medicalcms.handlers.MedicsIndexHandler;
-import com.medicalcms.medics.MedicSql2oModel;
+import com.medicalcms.medics.*;
 
 
 import com.medicalcms.patients.PatientSql2oModel;
 
 import org.sql2o.Sql2o;
-import org.sql2o.converters.UUIDConverter;
-import org.sql2o.quirks.PostgresQuirks;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
-import java.util.UUID;
 import java.util.logging.Logger;
 
 import static spark.Spark.get;
@@ -50,12 +46,11 @@ public class MedicalCmsService
         MedicSql2oModel medicSql2oModel = new MedicSql2oModel(sql2o);
         PatientSql2oModel patientSql2oModel = new PatientSql2oModel(sql2o);
 
-
-        // insert a post (using HTTP post method)
-        post("/medics/:id", new GetSingleMedicHandler(medicSql2oModel));
-
-        // get all post (using HTTP get method)
-        get("/medics", new MedicsIndexHandler(medicSql2oModel));
+        get("/medics/:id", new GetSingleMedicHandler(medicSql2oModel));
+        get("/medics", new IndexMedicsHandler(medicSql2oModel));
+        post("/medics", new CreateMedicHandler(medicSql2oModel));
+        put("/medics/:id", new EditMedicHandler(medicSql2oModel));
+        delete("/medics/:id", new DeleteMedicHandler(medicSql2oModel));
 
         get("/alive", new Route() {
             @Override

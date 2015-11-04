@@ -1,7 +1,8 @@
-package com.medicalcms.handlers;
+package com.medicalcms.medics;
 
 import com.medicalcms.AbstractRequestHandler;
 import com.medicalcms.Answer;
+import com.medicalcms.handlers.EmptyPayload;
 import com.medicalcms.medics.MedicModel;
 import com.medicalcms.medics.MedicSql2oModel;
 
@@ -10,9 +11,9 @@ import java.util.stream.Collectors;
 
 import static j2html.TagCreator.*;
 
-public class MedicsIndexHandler extends AbstractRequestHandler<EmptyPayload> {
+public class IndexMedicsHandler extends AbstractRequestHandler<EmptyPayload> {
     public MedicModel model;
-    public MedicsIndexHandler(MedicSql2oModel model) {
+    public IndexMedicsHandler(MedicSql2oModel model) {
         super(EmptyPayload.class);
         this.model = model;
     }
