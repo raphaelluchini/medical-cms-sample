@@ -3,6 +3,16 @@
 <div class="col-md-4">
     <form method="POST" action="/anamneses/{{data.id}}/edit">
         <div class="form-group">
+            <label for="drugs">Médico:</label>
+            <span id="drugs" name="drugs">{{medic.name}}</span>
+        </div>
+
+        <div class="form-group">
+            <label for="drugs">Paciente:</label>
+            <span id="drugs" name="drugs">{{patient.name}}</span>
+        </div>
+
+        <div class="form-group">
             <label for="drugs">Remédios:</label>
             <textarea id="drugs" name="drugs" class="form-control">{{data.drugs}}</textarea>
         </div>

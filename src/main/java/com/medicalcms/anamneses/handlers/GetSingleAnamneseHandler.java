@@ -1,5 +1,9 @@
 package com.medicalcms.anamneses.handlers;
 
+import com.medicalcms.medics.Medic;
+import com.medicalcms.medics.MedicModel;
+import com.medicalcms.patients.Patient;
+import com.medicalcms.patients.PatientModel;
 import com.medicalcms.requestsHandlers.AbstractRequestHandler;
 import com.medicalcms.Answer;
 import com.medicalcms.anamneses.Anamnese;
@@ -11,15 +15,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static j2html.TagCreator.*;
-
 
 public class GetSingleAnamneseHandler extends AbstractRequestHandler<EmptyPayload> {
     public AnamneseModel model;
+    public MedicModel medicModel;
+    public PatientModel patientModel;
 
-    public GetSingleAnamneseHandler(AnamneseModel model) {
+    public GetSingleAnamneseHandler(AnamneseModel model, MedicModel medicModel, PatientModel patientModel) {
         super(EmptyPayload.class);
         this.model = model;
+        this.medicModel = medicModel;
+        this.patientModel = patientModel;
     }
 
     @Override
@@ -42,9 +48,14 @@ public class GetSingleAnamneseHandler extends AbstractRequestHandler<EmptyPayloa
             return new Answer(404);
         }
 
+        Optional<Medic> medic = medicModel.get(anamnese.get().getMedic_id());
+        Optional<Patient> patient = patientModel.get(anamnese.get().getPatient_id());
+
         if (shouldReturnHtml) {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("data", anamnese.get());
+            map.put("medic", medic.get());
+            map.put("patient", patient.get());
             String html = toHandlebars(new ModelAndView(map, "anamneses/edit.hbs"));
             return Answer.ok(html);
         } else {

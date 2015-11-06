@@ -68,7 +68,7 @@ public class MedicalCmsService
         put("/patients/:id", new EditPatientHandler(patientSql2oModel));
         delete("/patients/:id", new DeletePatientHandler(patientSql2oModel));
 
-        get("/anamneses/:id", new GetSingleAnamneseHandler(anamneseSql2oModel));
+        get("/anamneses/:id", new GetSingleAnamneseHandler(anamneseSql2oModel, medicSql2oModel, patientSql2oModel));
         post("/anamneses", new CreateAnamneseHandler(anamneseSql2oModel));
         put("/anamneses/:id", new EditAnamneseHandler(anamneseSql2oModel, medicSql2oModel, patientSql2oModel));
         delete("/anamneses/:id", new DeleteAnamneseHandler(anamneseSql2oModel));
