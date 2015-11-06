@@ -16,7 +16,7 @@ import java.util.Optional;
 public class GetSingleMedicHandler extends AbstractRequestHandler<EmptyPayload> {
     public MedicModel model;
 
-    public GetSingleMedicHandler(MedicSql2oModel model) {
+    public GetSingleMedicHandler(MedicModel model) {
         super(EmptyPayload.class);
         this.model = model;
     }

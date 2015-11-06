@@ -1,5 +1,5 @@
 {{> header.hbs}}
-<h1>Editar Patients</h1>
+<h1>Paciente</h1>
 <div class="col-md-4">
     <form method="POST" action="/patients/{{data.id}}/edit">
         <div class="form-group">
@@ -23,8 +23,23 @@
             <label for="name">Cidade:</label>
             <input type="text" id="city" name="city" value="{{data.city}}" class="form-control">
         </div>
+        {{#if anamneses}}
+            <div class="form-group">
+                <label for="name">Histórico:</label>
+                <table class="table table-hover">
+                    <tr>
+                        <th>Data</th>
+                    </tr>
+                    {{#each anamneses}}
+                        <tr>
+                            <td><a href="/anamneses/{{id}}">{{date}}</a></td>
+                        </tr>
+                    {{/each}}
+                </table>
+            </div>
+        {{/if}}
         <div class="btn-group">
-            <input type="submit" class="btn btn-default" value="Enviar">
+            <input type="submit" class="btn btn-success" value="Editar">
             <a class="btn btn-warning" href="/patients">Voltar</a>
         </div>
     </form>

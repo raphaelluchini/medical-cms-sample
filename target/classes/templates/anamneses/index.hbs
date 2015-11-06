@@ -1,0 +1,25 @@
+{{> header.hbs}}
+    <h1>Pacientes</h1>
+    <div class="btn-group">
+        <a class="btn btn-primary" href="/patients/new">Criar um novo Paciente</a>
+        <a class="btn btn-warning" href="/">Voltar</a>
+    </div>
+    <br>
+    <br>
+    <table class="table table-hover">
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Deletar?</th>
+        </tr>
+        {{#each data}}
+        <tr>
+            <td>{{id}}</td>
+            <td><a href="/patients/{{id}}">{{name}}</a></td>
+            <td>{{email}}</td>
+            <td><a class="btn btn-danger btn-sm" href="/patients/{{id}}/delete"><i class="glyphicon glyphicon-trash"></i></a></td>
+        </tr>
+        {{/each}}
+    </table>
+{{> footer.hbs}}

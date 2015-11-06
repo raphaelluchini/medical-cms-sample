@@ -5,7 +5,9 @@ import com.medicalcms.Answer;
 import com.medicalcms.anamneses.Anamnese;
 import com.medicalcms.anamneses.AnamneseModel;
 import com.medicalcms.EmptyPayload;
+import spark.ModelAndView;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -41,10 +43,9 @@ public class GetSingleAnamneseHandler extends AbstractRequestHandler<EmptyPayloa
         }
 
         if (shouldReturnHtml) {
-            String html = body().with(
-                    h1("Anamneses"),
-                    div().with(h2(anamnese.get().getDate().toString()))
-            ).render();
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("data", anamnese.get());
+            String html = toHandlebars(new ModelAndView(map, "anamneses/edit.hbs"));
             return Answer.ok(html);
         } else {
             String json = dataToJson(anamnese.get());

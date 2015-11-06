@@ -1,5 +1,6 @@
 package com.medicalcms.patients.handlers;
 
+import com.medicalcms.anamneses.Anamnese;
 import com.medicalcms.requestsHandlers.AbstractRequestHandler;
 import com.medicalcms.Answer;
 import com.medicalcms.EmptyPayload;
@@ -8,6 +9,7 @@ import com.medicalcms.patients.PatientModel;
 import spark.ModelAndView;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -37,6 +39,7 @@ public class GetSinglePatientHandler extends AbstractRequestHandler<EmptyPayload
         }
 
         Optional<Patient> patient = model.get(id);
+        List<Anamnese> anamneses = model.getAllAnamneseOn(id);
 
         if (patient == null) {
             return new Answer(404);
@@ -45,6 +48,7 @@ public class GetSinglePatientHandler extends AbstractRequestHandler<EmptyPayload
         if (shouldReturnHtml) {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("data", patient.get());
+            map.put("anamneses", anamneses);
             String html = toHandlebars(new ModelAndView(map, "patients/edit.hbs"));
             return Answer.ok(html);
         } else {
