@@ -28,9 +28,15 @@
         </div>
 
         <div class="form-group">
-            <label for="orders">Pedidos Médicos:</label>
-            <textarea id="orders" name="orders" class="form-control">{{data.orders}}</textarea>
+            <label for="orders">Pedidos:</label>
+            <textarea id="orders" name="orders" data-id="{{data.id}}" class="form-control">{{data.orders}}</textarea>
         </div>
+
+        <div class="form-group">
+            <label for="images">Imagens:</label>
+            <div id="images"></div>
+        </div>
+
         <div class="btn-group">
             <input type="submit" class="btn btn-success" value="Editar">
             <a class="btn btn-warning" href="/patients/{{data.patient_id}}">Voltar</a>
@@ -39,6 +45,21 @@
 </div>
 <script>
     $(function () {
+
+        $.ajax({
+            url: '/images/'+$('#drugs').attr('data-id'),
+            type: 'GET',
+            contentType: 'application/json',
+            dataType: 'json',
+            statusCode: {
+                200: function (json) {
+                    $.each(json, function (i, item) {
+                        $('#images').append($('<img>').attr('src', item.src).attr('width', 150).attr('height', 150));
+                    });
+                }
+            }
+        });
+
         $("#edit-anamnese").submit(function (event) {
             event.preventDefault();
             var drugs = $('#drugs');

@@ -18,20 +18,13 @@ public class GetImagesHandler extends AbstractRequestHandler<EmptyPayload> {
     }
 
     @Override
-    protected Answer processImpl(EmptyPayload value, Map urlParams, boolean shouldReturnHtml) {
-        if (shouldReturnHtml) {
-            String html = body().with(
-                    h1("Images:"),
-                    div().with(
-                            model.getAll().stream().map((p) ->
-                                    div().with(
-                                            h2(p.getSrc())
-                                            ))
-                                    .collect(Collectors.toList()))
-            ).render();
-            return Answer.ok(html);
-        } else {
+    protected Answer processImpl(EmptyPayload value, Map<String, String> urlParams, boolean shouldReturnHtml) {
+        if (!urlParams.containsKey(":anamnese_id")) {
             String json = dataToJson(model.getAll());
+            return Answer.ok(json);
+        }else{
+            int id = Integer.parseInt(urlParams.get(":anamnese_id"));
+            String json = dataToJson(model.getAllFrom(id));
             return Answer.ok(json);
         }
     }

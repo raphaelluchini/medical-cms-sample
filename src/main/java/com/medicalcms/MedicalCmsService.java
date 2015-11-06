@@ -50,12 +50,14 @@ public class MedicalCmsService
                 options.dbUsername, options.dbPassword
         );
 
+        externalStaticFileLocation("/tmp");
         staticFileLocation("/public");
 
         AnamneseSql2oModel anamneseSql2oModel = new AnamneseSql2oModel(sql2o);
         MedicSql2oModel medicSql2oModel = new MedicSql2oModel(sql2o);
         PatientSql2oModel patientSql2oModel = new PatientSql2oModel(sql2o);
         ImageSql2OModel imageSql2oModel = new ImageSql2OModel(sql2o);
+
 
         get("/medics/new", new TemplateHandler("medics/new.hbs"));
         get("/medics/edit", new TemplateHandler("medics/edit.hbs"));
@@ -80,6 +82,7 @@ public class MedicalCmsService
         delete("/anamneses/:id", new DeleteAnamneseHandler(anamneseSql2oModel));
 
 
+        get("/images/:anamnese_id", new GetImagesHandler(imageSql2oModel));
         get("/images", new GetImagesHandler(imageSql2oModel));
         post("/images", new CreateImageHandler(imageSql2oModel));
         delete("/images/:id", new DeleteImageHandler(imageSql2oModel));

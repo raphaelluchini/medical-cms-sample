@@ -27,9 +27,19 @@ public class ImageSql2OModel implements ImageModel {
     }
 
     @Override
-    public List<Image> getAll() {
+      public List<Image> getAll() {
         try (Connection conn = sql2o.open()) {
             List<Image> images = conn.createQuery("SELECT * FROM images")
+                    .executeAndFetch(Image.class);
+            return images;
+        }
+    }
+
+    @Override
+    public List<Image> getAllFrom(int anamneseId) {
+        try (Connection conn = sql2o.open()) {
+            List<Image> images = conn.createQuery("SELECT * FROM images WHERE anamnese_id=:anamneseId")
+                    .addParameter("anamneseId", anamneseId)
                     .executeAndFetch(Image.class);
             return images;
         }

@@ -1,18 +1,23 @@
 {{> header.hbs}}
 <h1>Criar Paciente</h1>
 <div class="col-md-4">
+    <span class="btn btn-success fileinput-button" style="padding:0">
+        <span style="position: absolute;top:10px;left:30px">
+            <i class="glyphicon glyphicon-plus"></i>
+            <span>Select files...</span>
+        </span>
+        <input id="fileupload" type="file" style="opacity:0;display:inline-block;padding: 10px 10px 10px 0px" name="file">
+    </span>
+    <hr id="line">
     <form id="new-anamnese">
         <div class="form-group">
             <label for="name">Paciente:</label>
-
             <select name="patients" id="patients">
-
             </select>
         </div>
         <div class="form-group">
             <label for="name">Medico:</label>
             <select name="medics" id="medics">
-
             </select>
         </div>
 
@@ -33,33 +38,51 @@
     </form>
 </div>
 <script>
-    $(function () {
-        $("#new-anamnese").submit(function (event) {
-            event.preventDefault();
-            var date = new Date();
 
-            var name = $('#name');
-            var formData = {
-                name: name.val(),
-                patient_id: $('#patients').val(),
-                medic_id: $('#medics').val(),
-                drugs: $('#drugs').val(),
-                orders: $('#orders').val(),
-                date: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
-            };
-            $.ajax({
-                url: "/anamneses",
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(formData),
-                dataType: 'json',
-                statusCode: {
-                    201: function (response) {
-                        document.location = "/anamneses/" + response;
-                    }
-                }
-            });
+    $(function () {
+
+        $('#fileupload').fileupload({
+            dataType: 'json',
+            'option': {
+                maxNumberOfFiles:1,
+                singleFileUploads: true,
+                autoUpload: false
+            },
+            always:function (e, data) {
+              document.location = "/patients/"+$('#patients').val();
+            },
+            add: function (e, data) {
+                $("#new-anamnese").submit(function (event) {
+                    event.preventDefault();
+                    var date = new Date();
+                    var name = $('#name');
+                    var formData = {
+                        name: name.val(),
+                        patient_id: $('#patients').val(),
+                        medic_id: $('#medics').val(),
+                        drugs: $('#drugs').val(),
+                        orders: $('#orders').val(),
+                        date: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+                    };
+                    $.ajax({
+                        url: "/anamneses",
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(formData),
+                        dataType: 'json',
+                        statusCode: {
+                            201: function (response) {
+                                data.url = '/images?anamnese_id=' + response;
+                                data.submit();
+                            }
+                        }
+                    });
+
+                });
+            }
         });
+
+
         $.ajax({
             url: '/patients',
             type: 'GET',

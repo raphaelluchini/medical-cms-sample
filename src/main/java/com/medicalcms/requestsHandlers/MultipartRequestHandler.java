@@ -28,7 +28,7 @@ public abstract class MultipartRequestHandler<V extends Validable> implements Re
 
     private static final int HTTP_BAD_REQUEST = 400;
 
-    public MultipartRequestHandler(Class<V> valueClass){
+    public MultipartRequestHandler(Class<V> valueClass) {
         this.valueClass = valueClass;
     }
 
@@ -44,7 +44,7 @@ public abstract class MultipartRequestHandler<V extends Validable> implements Re
             StringWriter sw = new StringWriter();
             mapper.writeValue(sw, data);
             return sw.toString();
-        } catch (IOException e){
+        } catch (IOException e) {
             throw new RuntimeException("IOException from a StringWriter?");
         }
     }
@@ -70,18 +70,19 @@ public abstract class MultipartRequestHandler<V extends Validable> implements Re
                 request.raw().setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement);
                 Part file = request.raw().getPart("file"); //file is name of the upload form
                 String num = Integer.toString((int) Math.round(Math.random() * 10000));
+                String filename = num + "-" + file.getSubmittedFileName();
                 Path out = Paths.get(location + "/" + num + "-" + file.getSubmittedFileName());
                 try (final InputStream in = file.getInputStream()) {
-                    Files.copy(in,out);
+                    Files.copy(in, out);
                     file.delete();
                 }
-                Map <String, String[]> map = request.raw().getParameterMap();
-                Map <String, String> hm = new HashMap<String, String>();
+                Map<String, String[]> map = request.raw().getParameterMap();
+                Map<String, String> hm = new HashMap<String, String>();
 
-                for(Map.Entry<String, String[]> item : map.entrySet()){
+                for (Map.Entry<String, String[]> item : map.entrySet()) {
                     hm.put(item.getKey(), item.getValue()[0]);
                 }
-                hm.put("src", out.toString());
+                hm.put("src", "/" + filename);
                 value = objectMapper.readValue(dataToJson(hm), valueClass);
             }
             Map<String, String> urlParams = request.params();

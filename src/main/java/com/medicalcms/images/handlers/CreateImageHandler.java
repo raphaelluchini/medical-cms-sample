@@ -18,7 +18,6 @@ public class CreateImageHandler extends MultipartRequestHandler<CreateImagePaylo
     @Override
     protected Answer processImpl(CreateImagePayload value, Map<String, String> urlParams, boolean shouldReturnHtml) {
         Long id = model.create(value.getSrc(), value.getAnamnese_id());
-        System.out.println(id);
         return new Answer(201, Long.toString(id));
     }
 }
