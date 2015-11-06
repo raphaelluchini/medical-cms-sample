@@ -21,6 +21,7 @@ import com.medicalcms.medics.handlers.IndexMedicsHandler;
 import com.medicalcms.patients.PatientSql2oModel;
 
 import com.medicalcms.patients.handlers.*;
+import com.medicalcms.requestsHandlers.TemplateHandler;
 import org.sql2o.Sql2o;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -56,22 +57,28 @@ public class MedicalCmsService
         PatientSql2oModel patientSql2oModel = new PatientSql2oModel(sql2o);
         ImageSql2OModel imageSql2oModel = new ImageSql2OModel(sql2o);
 
+        get("/medics/new", new TemplateHandler("medics/new.hbs"));
+        get("/medics/edit", new TemplateHandler("medics/edit.hbs"));
         get("/medics/:id", new GetSingleMedicHandler(medicSql2oModel));
         get("/medics", new IndexMedicsHandler(medicSql2oModel));
         post("/medics", new CreateMedicHandler(medicSql2oModel));
         put("/medics/:id", new EditMedicHandler(medicSql2oModel));
         delete("/medics/:id", new DeleteMedicHandler(medicSql2oModel));
 
+        get("/patients/edit", new TemplateHandler("patients/edit.hbs"));
+        get("/patients/new", new TemplateHandler("patients/new.hbs"));
         get("/patients/:id", new GetSinglePatientHandler(patientSql2oModel));
         get("/patients", new IndexPatientsHandler(patientSql2oModel));
         post("/patients", new CreatePatientHandler(patientSql2oModel));
         put("/patients/:id", new EditPatientHandler(patientSql2oModel));
         delete("/patients/:id", new DeletePatientHandler(patientSql2oModel));
 
+        get("/anamneses/new", new TemplateHandler("anamneses/new.hbs"));
         get("/anamneses/:id", new GetSingleAnamneseHandler(anamneseSql2oModel, medicSql2oModel, patientSql2oModel));
         post("/anamneses", new CreateAnamneseHandler(anamneseSql2oModel));
-        put("/anamneses/:id", new EditAnamneseHandler(anamneseSql2oModel, medicSql2oModel, patientSql2oModel));
+        put("/anamneses/:id", new EditAnamneseHandler(anamneseSql2oModel));
         delete("/anamneses/:id", new DeleteAnamneseHandler(anamneseSql2oModel));
+
 
         get("/images", new GetImagesHandler(imageSql2oModel));
         post("/images", new CreateImageHandler(imageSql2oModel));

@@ -1,10 +1,10 @@
 {{> header.hbs}}
 <h1>Paciente</h1>
 <div class="col-md-4">
-    <form method="POST" action="/patients/{{data.id}}/edit">
+    <form id="edit-patient">
         <div class="form-group">
             <label for="name">Nome:</label>
-            <input type="text" id="name" name="name" value="{{data.name}}" class="form-control">
+            <input type="text" id="name" name="name" data-id="{{data.id}}" value="{{data.name}}" class="form-control">
         </div>
 
         <div class="form-group">
@@ -32,7 +32,14 @@
                     </tr>
                     {{#each anamneses}}
                         <tr>
-                            <td><a href="/anamneses/{{id}}">{{date}}</a></td>
+                            <td>
+                                <a href="/anamneses/{{id}}">
+                                    <script>
+                                        var date = new Date('{{date}}');
+                                        document.write(date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear())
+                                    </script>
+                                </a>
+                            </td>
                         </tr>
                     {{/each}}
                 </table>
@@ -44,4 +51,31 @@
         </div>
     </form>
 </div>
+<script>
+    $(function () {
+        $("#edit-patient").submit(function (event) {
+            event.preventDefault();
+            var name = $('#name');
+            var formData = {
+                name: name.val(),
+                email: $('#email').val(),
+                age: $('#age').val(),
+                gender: $('#gender').val(),
+                city: $('#city').val()
+            };
+            $.ajax({
+                url: "/patients/" + name.attr('data-id'),
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                dataType: 'json',
+                statusCode: {
+                    200: function () {
+                        document.location = "/patients";
+                    }
+                }
+            });
+        });
+    });
+</script>
 {{> footer.hbs}}

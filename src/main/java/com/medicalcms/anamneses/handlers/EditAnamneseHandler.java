@@ -15,14 +15,10 @@ import java.util.Optional;
 public class EditAnamneseHandler extends AbstractRequestHandler<EditAnamnesePayload> {
 
     private AnamneseModel model;
-    private MedicModel medicModel;
-    private PatientModel patientModel;
 
-    public EditAnamneseHandler(AnamneseModel model, MedicModel medicModel, PatientModel patientModel) {
+    public EditAnamneseHandler(AnamneseModel model) {
         super(EditAnamnesePayload.class);
         this.model = model;
-        this.medicModel = medicModel;
-        this.patientModel = patientModel;
     }
 
     @Override
@@ -38,10 +34,8 @@ public class EditAnamneseHandler extends AbstractRequestHandler<EditAnamnesePayl
         }
 
         Optional<Anamnese> anamnese = model.get(id);
-        Optional<Medic> medic = medicModel.get(value.getMedic_id());
-        Optional<Patient> patient = patientModel.get(value.getPatient_id());
 
-        if (!anamnese.isPresent() || !medic.isPresent() || !patient.isPresent()) {
+        if (!anamnese.isPresent()) {
             return new Answer(404);
         }
 
@@ -51,9 +45,7 @@ public class EditAnamneseHandler extends AbstractRequestHandler<EditAnamnesePayl
         if (value.getOrders() != null) {
             anamnese.get().setOrders(value.getOrders());
         }
-        if (value.getDate() != null) {
-            anamnese.get().setDate(value.getDate());
-        }
+
 
         model.update(anamnese.get());
         return new Answer(200);

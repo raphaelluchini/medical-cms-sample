@@ -1,20 +1,58 @@
 {{> header.hbs}}
-    <h1>Criar Paciente</h1>
+<h1>Criar Paciente</h1>
 <div class="col-md-4">
-    <form method="POST" action="/patients">
+    <form method="POST" id="new-patient">
         <div class="form-group">
             <label for="name">Nome:</label>
             <input type="text" id="name" name="name" class="form-control">
         </div>
         <div class="form-group">
-            <label for="name">Email:</label>
+            <label for="email">Email:</label>
             <input type="email" id="email" name="email" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="age">Idade:</label>
+            <input type="number" id="age" name="age" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="gender">Sexo:</label>
+            <input type="text" id="gender" name="gender" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="city">Cidade:</label>
+            <input type="text" id="city" name="city" class="form-control">
         </div>
 
         <div class="btn-group">
-            <input type="submit" class="btn btn-default" value="Enviar">
+            <input type="submit" class="btn btn-success" value="Enviar">
             <a class="btn btn-warning" href="/patients">Voltar</a>
         </div>
     </form>
 </div>
+<script>
+    $(function () {
+        $("#new-patient").submit(function (event) {
+            event.preventDefault();
+            var formData = {
+                name: $('#name').val(),
+                email: $('#email').val(),
+                age: $('#age').val(),
+                gender: $('#gender').val(),
+                city: $('#city').val()
+            };
+            $.ajax({
+                url: "/patients",
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                dataType: 'json',
+                statusCode: {
+                    201: function () {
+                        location.reload();
+                    }
+                }
+            });
+        });
+    });
+</script>
 {{> footer.hbs}}

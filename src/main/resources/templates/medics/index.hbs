@@ -1,27 +1,45 @@
 {{> header.hbs}}
-    <h1>Médicos</h1>
-    <div class="btn-group">
-        <a class="btn btn-primary" href="/medics">Criar um novo Médico</a>
-        <a class="btn btn-warning" href="/">Voltar</a>
-    </div>
-    <br>
-    <br>
-    <table class="table table-hover">
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-        </tr>
-        {{#each data}}
+<h1>Médicos</h1>
+<div class="btn-group">
+    <a class="btn btn-primary" href="/medics/new">Criar um novo Médico</a>
+    <a class="btn btn-warning" href="/">Voltar</a>
+</div>
+<br>
+<br>
+<table class="table table-hover">
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Deletar?</th>
+    </tr>
+    {{#each data}}
         <tr>
             <td>{{id}}</td>
             <td><a href="/medics/{{id}}">{{name}}</a></td>
-            <td>{{email}}</td>
-            <!--<td><a class="btn btn-danger btn-sm" href="/customers/{{id}}/delete"><i class="glyphicon glyphicon-trash"></i></a></td>-->
+            <td><a class="btn btn-danger btn-sm medic" data-id="{{id}}" href="/medics"><i
+                    class="glyphicon glyphicon-trash"></i></a></td>
         </tr>
-        {{/each}}
-    </table>
-
-    {{#if delete}}
-        <div class="success">Cliente deletado com sucesso</div>
-    {{/if}}
+    {{/each}}
+</table>
+<script>
+    $(function () {
+        $(".medic").each(function () {
+            var item = $(this);
+            $(this).click(function (event) {
+                event.preventDefault();
+                $.ajax({
+                    url: "/medics/" + item.attr('data-id'),
+                    type: 'DELETE',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    statusCode: {
+                        200: function() {
+                            location.reload();
+                        }
+                    }
+                })
+            });
+        });
+    });
+</script>
 {{> footer.hbs}}

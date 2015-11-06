@@ -1,15 +1,37 @@
 {{> header.hbs}}
-    <h1>Criar Cliente</h1>
+<h1>Criar Médico</h1>
 <div class="col-md-4">
-    <form method="POST" action="/medics">
+    <form id="new-medic">
         <div class="form-group">
             <label for="name">Nome:</label>
             <input type="text" id="name" name="name" class="form-control">
         </div>
         <div class="btn-group">
-            <input type="submit" class="btn btn-default" value="Enviar">
+            <input type="submit" class="btn btn-success" value="Enviar">
             <a class="btn btn-warning" href="/medics">Voltar</a>
         </div>
     </form>
 </div>
+<script>
+    $(function () {
+        $("#new-medic").submit(function (event) {
+            event.preventDefault();
+            var formData = {
+                name: $('#name').val()
+            };
+            $.ajax({
+                url: "/medics",
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                dataType: 'json',
+                statusCode: {
+                    201: function() {
+                        location.reload();
+                    }
+                }
+            });
+        });
+    });
+</script>
 {{> footer.hbs}}

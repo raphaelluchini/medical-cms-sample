@@ -18,7 +18,6 @@ public class CreateMedicHandler extends AbstractRequestHandler<CreateMedicPayloa
     @Override
     protected Answer processImpl(CreateMedicPayload value, Map<String, String> urlParams, boolean shouldReturnHtml) {
         Long id = model.create(value.getName());
-        System.out.println(id);
         return new Answer(201, Long.toString(id));
     }
 }

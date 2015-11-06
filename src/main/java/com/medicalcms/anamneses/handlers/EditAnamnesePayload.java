@@ -3,19 +3,14 @@ package com.medicalcms.anamneses.handlers;
 import com.medicalcms.Validable;
 import lombok.Data;
 
-import java.util.Date;
-
 
 @Data
 class EditAnamnesePayload implements Validable {
     String drugs;
     String orders;
-    Date date;
-    int medic_id;
-    int patient_id;
 
     public boolean isValid() {
-        return  date != null;
+        return true;
     }
 
     public String getDrugs() {
@@ -32,29 +27,5 @@ class EditAnamnesePayload implements Validable {
 
     public void setOrders(String orders) {
         this.orders = orders;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public int getMedic_id() {
-        return medic_id;
-    }
-
-    public void setMedic_id(int medic_id) {
-        this.medic_id = medic_id;
-    }
-
-    public int getPatient_id() {
-        return patient_id;
-    }
-
-    public void setPatient_id(int patient_id) {
-        this.patient_id = patient_id;
     }
 }

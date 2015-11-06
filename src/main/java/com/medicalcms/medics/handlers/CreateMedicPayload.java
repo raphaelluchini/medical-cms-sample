@@ -8,7 +8,13 @@ class CreateMedicPayload implements Validable {
     private String name;
 
     public boolean isValid() {
-        return name != null;
+        if(name != null){
+            if(name.isEmpty()){
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
 
     public String getName() {
