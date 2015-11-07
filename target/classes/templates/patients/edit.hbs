@@ -33,12 +33,7 @@
                     {{#each anamneses}}
                         <tr>
                             <td>
-                                <a href="/anamneses/{{id}}">
-                                    <script>
-                                        var date = new Date('{{date}}');
-                                        document.write(date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear())
-                                    </script>
-                                </a>
+                                <a href="/anamneses/{{id}}" class="date">{{date}}</a>
                             </td>
                         </tr>
                     {{/each}}

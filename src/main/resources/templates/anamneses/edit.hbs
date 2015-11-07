@@ -1,5 +1,10 @@
 {{> header.hbs}}
 <h1>Anamnese</h1>
+<style>
+    .image {
+        cursor: pointer
+    }
+</style>
 <div class="col-md-4">
     <form id="edit-anamnese">
         <div class="form-group">
@@ -15,10 +20,7 @@
         <div class="form-group">
             <label for="date">Date:</label>
             <span id="date" name="date">
-                <script>
-                    var date = new Date('{{data.date}}');
-                    document.write(date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear())
-                </script>
+                {{data.date}}
             </span>
         </div>
 
@@ -34,6 +36,7 @@
 
         <div class="form-group">
             <label for="images">Imagens:</label>
+
             <div id="images"></div>
         </div>
 
@@ -47,14 +50,37 @@
     $(function () {
 
         $.ajax({
-            url: '/images/'+$('#drugs').attr('data-id'),
+            url: '/images/' + $('#drugs').attr('data-id'),
             type: 'GET',
             contentType: 'application/json',
             dataType: 'json',
             statusCode: {
                 200: function (json) {
                     $.each(json, function (i, item) {
-                        $('#images').append($('<img>').attr('src', item.src).attr('width', 150).attr('height', 150));
+                        $('#images').append($('<img>')
+                                        .attr('id', item.id)
+                                        .attr('class', 'image')
+                                        .attr('src', item.src)
+                                        .attr('width', 150)
+                                        .attr('height', 150)
+                                        .click(function () {
+                                            var obj = $(this);
+                                            var answer = confirm("Deletar?");
+                                            if (answer) {
+                                                $.ajax({
+                                                    url: '/images/' + obj.attr('id'),
+                                                    type: 'DELETE',
+                                                    contentType: 'application/json',
+                                                    dataType: 'json',
+                                                    statusCode: {
+                                                        200: function (json) {
+                                                            obj.remove();
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        })
+                        )
                     });
                 }
             }

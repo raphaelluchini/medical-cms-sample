@@ -23,9 +23,9 @@ public class DeleteImageHandler extends AbstractRequestHandler<EmptyPayload> {
         if (!urlParams.containsKey(":id")) {
             throw new IllegalArgumentException();
         }
-        int id;
+        Long id;
         try {
-            id = Integer.parseInt(urlParams.get(":id"));
+            id = Long.parseLong(urlParams.get(":id"));
         } catch (IllegalArgumentException e) {
             return new Answer(404);
         }

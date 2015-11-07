@@ -1,5 +1,6 @@
 package com.medicalcms.anamneses;
 
+import com.medicalcms.images.ImageSql2OModel;
 import com.medicalcms.medics.Medic;
 import com.medicalcms.medics.MedicModel;
 import org.sql2o.Connection;
@@ -18,7 +19,7 @@ public class AnamneseSql2oModel implements AnamneseModel {
     }
 
     @Override
-    public Long create(String drugs, String orders, Date date, int medicId, int patientId) {
+    public Long create(String drugs, String orders, Date date, int medicId, int patientId, String src) {
         try (Connection conn = sql2o.beginTransaction()) {
             Long anamneseId = (Long) conn.createQuery("INSERT INTO anamneses(drugs,orders,date,medic_id,patient_id) VALUES (:drugs,:orders,:date,:medicId,:patientId)")
                     .addParameter("drugs", drugs)
@@ -29,6 +30,7 @@ public class AnamneseSql2oModel implements AnamneseModel {
                     .executeUpdate()
                     .getKey();
             conn.commit();
+            new ImageSql2OModel(sql2o).create(src, anamneseId);
             return anamneseId;
         }
     }

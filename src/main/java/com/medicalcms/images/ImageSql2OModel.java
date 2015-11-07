@@ -15,7 +15,7 @@ public class ImageSql2OModel implements ImageModel {
     }
 
     @Override
-    public Long create(String src, int anamneseId) {
+    public Long create(String src, Long anamneseId) {
         try (Connection conn =  sql2o.open()) {
             Long patientId = (Long) conn.createQuery("INSERT INTO images(src,anamnese_id) VALUES (:src,:anamneseId)")
                     .addParameter("src", src)
@@ -36,7 +36,7 @@ public class ImageSql2OModel implements ImageModel {
     }
 
     @Override
-    public List<Image> getAllFrom(int anamneseId) {
+    public List<Image> getAllFrom(Long anamneseId) {
         try (Connection conn = sql2o.open()) {
             List<Image> images = conn.createQuery("SELECT * FROM images WHERE anamnese_id=:anamneseId")
                     .addParameter("anamneseId", anamneseId)
@@ -46,7 +46,7 @@ public class ImageSql2OModel implements ImageModel {
     }
 
     @Override
-    public Optional<Image> get(int imageId) {
+    public Optional<Image> get(Long imageId) {
         try (Connection conn = sql2o.open()) {
             List<Image> images = conn.createQuery("SELECT * FROM images WHERE id=:imageId")
                     .addParameter("imageId", imageId)
@@ -72,7 +72,7 @@ public class ImageSql2OModel implements ImageModel {
     }
 
     @Override
-    public void delete(int imageId) {
+    public void delete(Long imageId) {
         try (Connection conn = sql2o.open()) {
             conn.createQuery("DELETE FROM images WHERE id=:imageId")
                     .addParameter("imageId", imageId)

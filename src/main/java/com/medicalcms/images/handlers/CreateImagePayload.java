@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 class CreateImagePayload implements Validable {
     private String src;
-    private int anamnese_id;
+    private Long anamnese_id;
 
     public boolean isValid() {
         return src != null;
@@ -20,11 +20,11 @@ class CreateImagePayload implements Validable {
         this.src = src;
     }
 
-    public int getAnamnese_id() {
+    public Long getAnamnese_id() {
         return anamnese_id;
     }
 
-    public void setAnamnese_id(int anamnese_id) {
+    public void setAnamnese_id(Long anamnese_id) {
         this.anamnese_id = anamnese_id;
     }
 }

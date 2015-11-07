@@ -23,7 +23,7 @@ public class GetImagesHandler extends AbstractRequestHandler<EmptyPayload> {
             String json = dataToJson(model.getAll());
             return Answer.ok(json);
         }else{
-            int id = Integer.parseInt(urlParams.get(":anamnese_id"));
+            Long id = Long.parseLong(urlParams.get(":anamnese_id"));
             String json = dataToJson(model.getAllFrom(id));
             return Answer.ok(json);
         }

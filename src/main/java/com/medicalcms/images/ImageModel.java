@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ImageModel {
-    Long create(String name, int anamneseId);
+    Long create(String name, Long anamneseId);
     List<Image> getAll();
-    List<Image> getAllFrom(int anamneseId);
-    Optional<Image> get(int imageId);
+    List<Image> getAllFrom(Long anamneseId);
+    Optional<Image> get(Long imageId);
     void update(Image image);
-    void delete(int imageId);
+    void delete(Long imageId);
 }

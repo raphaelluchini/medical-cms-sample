@@ -12,6 +12,15 @@ class CreateAnamnesePayload implements Validable {
     Date date;
     int medic_id;
     int patient_id;
+    String src;
+
+    public String getSrc() {
+        return src;
+    }
+
+    public void setSrc(String src) {
+        this.src = src;
+    }
 
     public boolean isValid() {
         return  date != null;

@@ -88,8 +88,9 @@ public abstract class MultipartRequestHandler<V extends Validable> implements Re
             Map<String, String> urlParams = request.params();
             Answer answer = process(value, urlParams, false);
             response.status(answer.getCode());
-            return "";
+            return answer.getBody();
         } catch (JsonMappingException e) {
+            System.out.println(e);
             response.status(400);
             response.body(e.getMessage());
             return e.getMessage();
