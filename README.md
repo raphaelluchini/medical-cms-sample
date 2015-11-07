@@ -20,3 +20,25 @@ Run > Run
 File > Open Project > (Select your project folder)
 Run
 ```
+
+##Database
+Database connect information are located in com/devsolutions/database/MySQLAdapter.java
+Check if they are the same of your computer
+
+--debug
+--database
+--db-host
+--db-username
+--db-password
+--db-port
+
+For example:
+```
+mvn compile && mvn exec:java -Dexec.args="--db-username someuser --db-password password"
+```
+
+##Creating mySQL database
+```
+mysql < medicalcms.sql
+```
+Or use any database software that supports mySQL

@@ -7,9 +7,6 @@ class CommandLineOptions {
     @Parameter(names = "--debug")
     boolean debug = false;
 
-    @Parameter(names = {"--service-port"})
-    Integer servicePort = 4567;
-
     @Parameter(names = {"--database"})
     String database = "medicalcms";
 
