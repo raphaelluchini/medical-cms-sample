@@ -30,7 +30,9 @@ public class AnamneseSql2oModel implements AnamneseModel {
                     .executeUpdate()
                     .getKey();
             conn.commit();
-            new ImageSql2OModel(sql2o).create(src, anamneseId);
+            if(src != null && !src.isEmpty()){
+                new ImageSql2OModel(sql2o).create(src, anamneseId);
+            }
             return anamneseId;
         }
     }

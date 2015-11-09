@@ -2,16 +2,16 @@
 <h1>Criar Anamnese</h1>
 <div class="col-md-4">
     <form id="uploadimage" action="" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" id="file" required/>
+        <input type="file" name="file" id="file"/>
         <hr id="line">
         <div class="form-group">
             <label for="name">Paciente:</label>
-            <select name="patient_id" id="patients">
+            <select name="patient_id" id="patients" required>
             </select>
         </div>
         <div class="form-group">
             <label for="name">Medico:</label>
-            <select name="medic_id" id="medics">
+            <select name="medic_id" id="medics" required>
             </select>
         </div>
 
@@ -50,7 +50,8 @@
                 processData: false,
                 statusCode: {
                     201: function (data) {
-                        document.location = "/anamneses/" + data;
+                        alert('Anamnese criada com sucesso');
+//                        document.location = "/anamneses/" + data;
                     }
                 }
             });

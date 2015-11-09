@@ -4,7 +4,7 @@
     <form id="new-medic">
         <div class="form-group">
             <label for="name">Nome:</label>
-            <input type="text" id="name" name="name" class="form-control">
+            <input type="text" id="name" name="name" class="form-control" required>
         </div>
         <div class="btn-group">
             <input type="submit" class="btn btn-success" value="Enviar">
@@ -27,6 +27,7 @@
                 dataType: 'json',
                 statusCode: {
                     201: function() {
+                        alert('Médico criado com sucesso');
                         location.reload();
                     }
                 }

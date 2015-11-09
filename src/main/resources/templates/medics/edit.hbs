@@ -1,10 +1,10 @@
 {{> header.hbs}}
-<h1>Paciente</h1>
+<h1>Editar Médico</h1>
 <div class="col-md-4">
     <form id="edit-medic">
         <div class="form-group">
             <label for="name">Nome:</label>
-            <input type="text" id="name" name="name" data-id="{{data.id}}" value="{{data.name}}" class="form-control">
+            <input type="text" id="name" name="name" data-id="{{data.id}}" value="{{data.name}}" class="form-control" required>
         </div>
         <label for="name">Email:</label>
 
@@ -31,6 +31,7 @@
                 dataType: 'json',
                 statusCode: {
                     200: function () {
+                        alert('Médico editado com sucesso');
                         document.location = "/patients";
                     }
                 }

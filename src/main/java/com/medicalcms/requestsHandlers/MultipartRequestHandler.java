@@ -82,7 +82,11 @@ public abstract class MultipartRequestHandler<V extends Validable> implements Re
                 for (Map.Entry<String, String[]> item : map.entrySet()) {
                     hm.put(item.getKey(), item.getValue()[0]);
                 }
-                hm.put("src", "/" + filename);
+
+                if(request.raw().getPart("file") != null) {
+                    hm.put("src", "/" + filename);
+                }
+
                 value = objectMapper.readValue(dataToJson(hm), valueClass);
             }
             Map<String, String> urlParams = request.params();
