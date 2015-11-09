@@ -17,7 +17,7 @@ public class ImageSql2OModel implements ImageModel {
     @Override
     public Long create(String src, Long anamneseId) {
         try (Connection conn =  sql2o.open()) {
-            Long patientId = (Long) conn.createQuery("INSERT INTO images(src,anamnese_id) VALUES (:src,:anamneseId)")
+            Long patientId = (Long) conn.createQuery("INSERT INTO images(src,anamneses_id) VALUES (:src,:anamneseId)")
                     .addParameter("src", src)
                     .addParameter("anamneseId", anamneseId)
                     .executeUpdate()
@@ -38,7 +38,7 @@ public class ImageSql2OModel implements ImageModel {
     @Override
     public List<Image> getAllFrom(Long anamneseId) {
         try (Connection conn = sql2o.open()) {
-            List<Image> images = conn.createQuery("SELECT * FROM images WHERE anamnese_id=:anamneseId")
+            List<Image> images = conn.createQuery("SELECT * FROM images WHERE anamneses_id=:anamneseId")
                     .addParameter("anamneseId", anamneseId)
                     .executeAndFetch(Image.class);
             return images;

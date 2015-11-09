@@ -21,7 +21,7 @@ public class AnamneseSql2oModel implements AnamneseModel {
     @Override
     public Long create(String drugs, String orders, Date date, int medicId, int patientId, String src) {
         try (Connection conn = sql2o.beginTransaction()) {
-            Long anamneseId = (Long) conn.createQuery("INSERT INTO anamneses(drugs,orders,date,medic_id,patient_id) VALUES (:drugs,:orders,:date,:medicId,:patientId)")
+            Long anamneseId = (Long) conn.createQuery("INSERT INTO anamneses(drugs,orders,date,medics_id,patients_id) VALUES (:drugs,:orders,:date,:medicId,:patientId)")
                     .addParameter("drugs", drugs)
                     .addParameter("orders", orders)
                     .addParameter("date", date)
@@ -63,7 +63,7 @@ public class AnamneseSql2oModel implements AnamneseModel {
     @Override
     public void update(Anamnese anamnese) {
         try (Connection conn = sql2o.open()) {
-            conn.createQuery("UPDATE anamneses SET drugs=:drugs, orders=:orders, date=:date, medic_id=:medicId, patient_id=:patientId WHERE id=:anamneseId")
+            conn.createQuery("UPDATE anamneses SET drugs=:drugs, orders=:orders, date=:date, medics_id=:medicId, patients_id=:patientId WHERE id=:anamneseId")
                     .addParameter("anamneseId", anamnese.getId())
                     .addParameter("drugs", anamnese.getDrugs())
                     .addParameter("orders", anamnese.getOrders())

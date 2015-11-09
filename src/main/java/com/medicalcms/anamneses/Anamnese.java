@@ -11,8 +11,8 @@ public class Anamnese {
     String drugs;
     String orders;
     Date date;
-    int medic_id;
-    int patient_id;
+    int medics_id;
+    int patients_id;
 
     public int getId() {
         return id;
@@ -47,18 +47,18 @@ public class Anamnese {
     }
 
     public int getMedic_id() {
-        return medic_id;
+        return medics_id;
     }
 
-    public void setMedic_id(int medic_id) {
-        this.medic_id = medic_id;
+    public void setMedic_id(int medics_id) {
+        this.medics_id = medics_id;
     }
 
     public int getPatient_id() {
-        return patient_id;
+        return patients_id;
     }
 
-    public void setPatient_id(int patient_id) {
-        this.patient_id = patient_id;
+    public void setPatient_id(int patients_id) {
+        this.patients_id = patients_id;
     }
 }

@@ -1,64 +1,90 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-DROP DATABASE IF EXISTS medicalcms; 
-CREATE DATABASE medicalcms; 
+-- -----------------------------------------------------
+-- Schema medicalcms
+-- -----------------------------------------------------
 
-USE medicalcms;
+-- -----------------------------------------------------
+-- Schema medicalcms
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `medicalcms` DEFAULT CHARACTER SET utf8 ;
+USE `medicalcms` ;
 
-# Dump of table anamneses
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `medicalcms`;
-
-CREATE TABLE `anamneses` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `drugs` varchar(64) DEFAULT NULL,
-  `orders` varchar(64) DEFAULT NULL,
-  `date` date DEFAULT NULL,
-  `medic_id` int(11) DEFAULT NULL,
-  `patient_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
-# Dump of table images
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `images`;
-
-CREATE TABLE `images` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `anamnese_id` int(11) DEFAULT NULL,
-  `src` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- -----------------------------------------------------
+-- Table `medicalcms`.`medics`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `medicalcms`.`medics` (
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(32) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 4
+DEFAULT CHARACTER SET = utf8;
 
 
+-- -----------------------------------------------------
+-- Table `medicalcms`.`patients`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `medicalcms`.`patients` (
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(32) NOT NULL DEFAULT '',
+  `age` INT(11) NOT NULL,
+  `email` VARCHAR(32) NOT NULL DEFAULT '',
+  `gender` VARCHAR(32) NOT NULL DEFAULT '',
+  `city` VARCHAR(11) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
-# Dump of table medics
-# ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `medics`;
+-- -----------------------------------------------------
+-- Table `medicalcms`.`anamneses`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `medicalcms`.`anamneses` (
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `drugs` VARCHAR(64) NULL DEFAULT NULL,
+  `orders` VARCHAR(64) NULL DEFAULT NULL,
+  `date` DATE NULL DEFAULT NULL,
+  `medics_id` INT(11) UNSIGNED NOT NULL,
+  `patients_id` INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_anamneses_medics1_idx` (`medics_id` ASC),
+  INDEX `fk_anamneses_patients1_idx` (`patients_id` ASC),
+  CONSTRAINT `fk_anamneses_medics1`
+    FOREIGN KEY (`medics_id`)
+    REFERENCES `medicalcms`.`medics` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_anamneses_patients1`
+    FOREIGN KEY (`patients_id`)
+    REFERENCES `medicalcms`.`patients` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
-CREATE TABLE `medics` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- -----------------------------------------------------
+-- Table `medicalcms`.`images`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `medicalcms`.`images` (
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `anamnese_id` INT(11) NULL DEFAULT NULL,
+  `src` VARCHAR(255) NULL DEFAULT NULL,
+  `anamneses_id` INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_images_anamneses_idx` (`anamneses_id` ASC),
+  CONSTRAINT `fk_images_anamneses`
+    FOREIGN KEY (`anamneses_id`)
+    REFERENCES `medicalcms`.`anamneses` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 
-
-# Dump of table patients
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `patients`;
-
-CREATE TABLE `patients` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) NOT NULL DEFAULT '',
-  `age` int(11) NOT NULL,
-  `email` varchar(32) NOT NULL DEFAULT '',
-  `gender` varchar(32) NOT NULL DEFAULT '',
-  `city` varchar(11) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

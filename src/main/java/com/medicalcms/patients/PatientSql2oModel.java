@@ -60,7 +60,7 @@ public class PatientSql2oModel implements PatientModel {
     @Override
     public List<Anamnese> getAllAnamneseOn(int patientId) {
         try (Connection conn = sql2o.open()) {
-            return conn.createQuery("SELECT * FROM anamneses WHERE patient_id=:patientId ORDER BY date DESC")
+            return conn.createQuery("SELECT * FROM anamneses WHERE patients_id=:patientId ORDER BY date DESC")
                     .addParameter("patientId", patientId)
                     .executeAndFetch(Anamnese.class);
         }
