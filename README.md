@@ -21,6 +21,8 @@ File > Open Project > (Select your project folder)
 Run
 ```
 
+Open in your browser: http://localhost:4567/
+
 ##Database
 Database connect information are located in com/medicalcms/CommandLineOptions
 Check if they are the same of your computer if you need to override default configurations, you can use those following params:
