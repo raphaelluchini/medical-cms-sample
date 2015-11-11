@@ -46,19 +46,19 @@ public class Anamnese {
         this.date = date;
     }
 
-    public int getMedic_id() {
+    public int getMedics_id() {
         return medics_id;
     }
 
-    public void setMedic_id(int medics_id) {
+    public void setMedics_id(int medics_id) {
         this.medics_id = medics_id;
     }
 
-    public int getPatient_id() {
+    public int getPatients_id() {
         return patients_id;
     }
 
-    public void setPatient_id(int patients_id) {
+    public void setPatients_id(int patients_id) {
         this.patients_id = patients_id;
     }
 }

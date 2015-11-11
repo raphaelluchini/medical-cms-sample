@@ -47,6 +47,18 @@ public class AnamneseSql2oModel implements AnamneseModel {
     }
 
     @Override
+    public List<Anamnese> getByDates(int patientId, String start, String end) {
+        try (Connection conn = sql2o.open()) {
+            List<Anamnese> anamneses = conn.createQuery("SELECT * FROM anamneses WHERE DATE(date) BETWEEN :start AND :end AND patients_id=:patientId")
+                    .addParameter("patientId", patientId)
+                    .addParameter("start", start)
+                    .addParameter("end", end)
+                    .executeAndFetch(Anamnese.class);
+            return anamneses;
+        }
+    }
+
+    @Override
     public Optional<Anamnese> get(int anamneseId) {
         try (Connection conn = sql2o.open()) {
             List<Anamnese>  anamnese = conn.createQuery("SELECT * FROM anamneses WHERE id=:anamneseId")
@@ -70,8 +82,8 @@ public class AnamneseSql2oModel implements AnamneseModel {
                     .addParameter("drugs", anamnese.getDrugs())
                     .addParameter("orders", anamnese.getOrders())
                     .addParameter("date", anamnese.getDate())
-                    .addParameter("medicId", anamnese.getMedic_id())
-                    .addParameter("patientId", anamnese.getPatient_id())
+                    .addParameter("medicId", anamnese.getMedics_id())
+                    .addParameter("patientId", anamnese.getPatients_id())
                     .executeUpdate();
         }
     }

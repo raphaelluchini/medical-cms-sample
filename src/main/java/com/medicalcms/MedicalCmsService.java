@@ -2,10 +2,7 @@ package com.medicalcms;
 
 import com.beust.jcommander.JCommander;
 import com.medicalcms.anamneses.AnamneseSql2oModel;
-import com.medicalcms.anamneses.handlers.CreateAnamneseHandler;
-import com.medicalcms.anamneses.handlers.DeleteAnamneseHandler;
-import com.medicalcms.anamneses.handlers.EditAnamneseHandler;
-import com.medicalcms.anamneses.handlers.GetSingleAnamneseHandler;
+import com.medicalcms.anamneses.handlers.*;
 import com.medicalcms.images.ImageSql2OModel;
 import com.medicalcms.images.handlers.CreateImageHandler;
 import com.medicalcms.images.handlers.DeleteImageHandler;
@@ -70,6 +67,9 @@ public class MedicalCmsService
         get("/patients/edit", new TemplateHandler("patients/edit.hbs"));
         get("/patients/new", new TemplateHandler("patients/new.hbs"));
         get("/patients/:id", new GetSinglePatientHandler(patientSql2oModel));
+
+        get("/patients/:id/anamneses/:start/:end", new IndexAnamnseHandler(anamneseSql2oModel));
+
         get("/patients", new IndexPatientsHandler(patientSql2oModel));
         post("/patients", new CreatePatientHandler(patientSql2oModel));
         put("/patients/:id", new EditPatientHandler(patientSql2oModel));
@@ -77,6 +77,7 @@ public class MedicalCmsService
 
         get("/anamneses/new", new TemplateHandler("anamneses/new.hbs"));
         get("/anamneses/:id", new GetSingleAnamneseHandler(anamneseSql2oModel, medicSql2oModel, patientSql2oModel));
+        get("/anamneses", new TemplateHandler("anamneses/index.hbs"));
         post("/anamneses", new CreateAnamneseHandler(anamneseSql2oModel));
         put("/anamneses/:id", new EditAnamneseHandler(anamneseSql2oModel));
         delete("/anamneses/:id", new DeleteAnamneseHandler(anamneseSql2oModel));

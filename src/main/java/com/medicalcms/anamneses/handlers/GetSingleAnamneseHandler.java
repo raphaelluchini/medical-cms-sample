@@ -48,8 +48,8 @@ public class GetSingleAnamneseHandler extends AbstractRequestHandler<EmptyPayloa
             return new Answer(404);
         }
 
-        Optional<Medic> medic = medicModel.get(anamnese.get().getMedic_id());
-        Optional<Patient> patient = patientModel.get(anamnese.get().getPatient_id());
+        Optional<Medic> medic = medicModel.get(anamnese.get().getMedics_id());
+        Optional<Patient> patient = patientModel.get(anamnese.get().getPatients_id());
 
         if (shouldReturnHtml) {
             Map<String, Object> map = new HashMap<String, Object>();

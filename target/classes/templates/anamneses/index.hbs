@@ -1,25 +1,86 @@
 {{> header.hbs}}
-    <h1>Pacientes</h1>
-    <div class="btn-group">
-        <a class="btn btn-primary" href="/patients/new">Criar um novo Paciente</a>
-        <a class="btn btn-warning" href="/">Voltar</a>
-    </div>
+<h1>Anamneses por periodo</h1>
+<div class="btn-group">
+    <form id="anamneses">
+        <div class="form-group">
+            <label for="name">Paciente:</label>
+            <select name="patient_id" id="patients" required>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="name">Remédios:</label>
+            <input type="date" id="date-start" name="date_start" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="name">Pedidos:</label>
+            <input type="date" id="date-end" name="date_end" class="form-control" required>
+        </div>
+
+        <input type="hidden" name="date" id="date">
+
+        <div class="btn-group">
+            <input type="submit" class="btn btn-success" value="Enviar">
+            <a class="btn btn-warning" href="/patients">Voltar</a>
+        </div>
+    </form>
     <br>
     <br>
-    <table class="table table-hover">
+    <table id="myTable" class="table table-hover">
+        <thead>
         <tr>
             <th>ID</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Deletar?</th>
+            <th>Data</th>
         </tr>
-        {{#each data}}
-        <tr>
-            <td>{{id}}</td>
-            <td><a href="/patients/{{id}}">{{name}}</a></td>
-            <td>{{email}}</td>
-            <td><a class="btn btn-danger btn-sm" href="/patients/{{id}}/delete"><i class="glyphicon glyphicon-trash"></i></a></td>
-        </tr>
-        {{/each}}
+        </thead>
+        <tbody>
+
+        </tbody>
     </table>
+    <script>
+
+        $(function () {
+
+            $("#anamneses").submit(function (event) {
+                event.preventDefault();
+                $('#myTable tbody').html('');
+                $.ajax({
+                    url: "/patients/" + $('#patients').val() + "/anamneses/" + $("#date-start").val() + "/" + $("#date-end").val(),
+                    type: "GET",
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    statusCode: {
+                        200: function (json) {
+                            if(json.length === 0){
+                                alert('Nenhuma Anamnese encontrada')
+                            }
+                            $.each(json, function (i, item) {
+                                $('#myTable tbody').append(
+                                        '<tr>' +
+                                        '<td>' + item.id + '</td>' +
+                                        '<td><a href="/anamneses/' + item.id + '">' + item.date + '</a></td>' +
+                                        '</tr>');
+                            });
+                        }
+                    }
+                });
+            });
+
+
+            $.ajax({
+                url: '/patients',
+                type: 'GET',
+                contentType: 'application/json',
+                dataType: 'json',
+                statusCode: {
+                    200: function (json) {
+                        $.each(json, function (i, item) {
+                            $('#patients').append($('<option>').text(item.name).attr('value', item.id));
+                        });
+                    }
+                }
+            });
+        });
+    </script>
 {{> footer.hbs}}
